@@ -9,5 +9,4 @@ public class OCatalogoDoSabioApplication {
     public static void main(String[] args) {
         SpringApplication.run(OCatalogoDoSabioApplication.class, args);
     }
-
 }
