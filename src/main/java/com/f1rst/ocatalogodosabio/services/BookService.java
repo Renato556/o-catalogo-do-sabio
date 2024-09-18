@@ -23,7 +23,13 @@ public class BookService {
         return bookRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("No book found with given id"));
     }
 
+    @Cacheable("booksByAuthor")
     public List<Book> findByAuthor(String author) {
         return bookRepository.findAllByAuthorContainingIgnoreCase(author);
+    }
+
+    @Cacheable("booksByGenre")
+    public List<Book> findByGenre(String genre) {
+        return bookRepository.findByGenreIgnoreCase(genre);
     }
 }

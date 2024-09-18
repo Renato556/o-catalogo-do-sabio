@@ -37,4 +37,11 @@ public class BookResource {
         List<BookDTO> bookDTOList = bookList.stream().map(BookDTO::new).toList();
         return ResponseEntity.ok(bookDTOList);
     }
+
+    @GetMapping(path = "/genre/{genre}")
+    public ResponseEntity<List<BookDTO>> findByGenre(@PathVariable("genre") String genre) {
+        List<Book> bookList = bookService.findByGenre(genre);
+        List<BookDTO> bookDTOList = bookList.stream().map(BookDTO::new).toList();
+        return ResponseEntity.ok(bookDTOList);
+    }
 }
