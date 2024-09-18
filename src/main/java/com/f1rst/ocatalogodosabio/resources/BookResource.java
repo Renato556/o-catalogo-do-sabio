@@ -30,4 +30,11 @@ public class BookResource {
         Book book = bookService.findById(id);
         return ResponseEntity.ok(new BookDTO(book));
     }
+
+    @GetMapping(path = "/author/{author}")
+    public ResponseEntity<List<BookDTO>> findByAuthor(@PathVariable("author") String author) {
+        List<Book> bookList = bookService.findByAuthor(author);
+        List<BookDTO> bookDTOList = bookList.stream().map(BookDTO::new).toList();
+        return ResponseEntity.ok(bookDTOList);
+    }
 }

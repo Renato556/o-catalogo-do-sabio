@@ -66,4 +66,26 @@ class BookResourceTest {
                 .usingRecursiveComparison()
                 .isEqualTo(book);
     }
+
+    @Test
+    void findByAuthorSuccessTest() {
+        ArrayList<String> genres1 = new ArrayList<>(Arrays.asList("Ficção", "Aventura"));
+        Book book1 = new Book("123", "Teste", "Autor", genres1, "Editora");
+
+        ArrayList<String> genres2 = new ArrayList<>(Arrays.asList("Ficção", "Terror"));
+        Book book2 = new Book("456", "Teste2", "Autor2", genres2, "Editora2");
+
+        ArrayList<Book> bookArrayList = new ArrayList<>(Arrays.asList(book1, book2));
+
+        // GIVEN
+        when(bookService.findByAuthor("autor")).thenReturn(bookArrayList);
+        // WHEN
+        ResponseEntity<List<BookDTO>> response = bookResource.findByAuthor("autor");
+        // THEN
+        verify(bookService, times(1)).findByAuthor("autor");
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertThat(response.getBody())
+                .usingRecursiveComparison()
+                .isEqualTo(bookArrayList.stream().map(BookDTO::new).toList());
+    }
 }

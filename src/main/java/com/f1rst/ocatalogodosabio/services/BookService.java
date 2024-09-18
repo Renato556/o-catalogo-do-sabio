@@ -22,4 +22,8 @@ public class BookService {
     public Book findById(String id) {
         return bookRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("No book found with given id"));
     }
+
+    public List<Book> findByAuthor(String author) {
+        return bookRepository.findAllByAuthorContainingIgnoreCase(author);
+    }
 }
