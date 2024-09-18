@@ -5,6 +5,8 @@ import com.f1rst.ocatalogodosabio.repositories.BookRepository;
 import com.github.javafaker.Faker;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.context.annotation.Configuration;
 
 import java.util.ArrayList;
@@ -16,6 +18,11 @@ public class Instantiation implements CommandLineRunner {
     BookRepository bookRepository;
 
     @Override
+    @Caching(evict = {
+            @CacheEvict(value = "allBooks", allEntries = true),
+            @CacheEvict(value = "booksByAuthor", allEntries = true),
+            @CacheEvict(value = "booksByGenre", allEntries = true)
+    })
     public void run(String... args) {
         Faker faker = new Faker();
         bookRepository.deleteAll();
@@ -39,5 +46,6 @@ public class Instantiation implements CommandLineRunner {
 
             bookRepository.save(book);
         }
+        System.out.println("All data was successfully generated");
     }
 }
