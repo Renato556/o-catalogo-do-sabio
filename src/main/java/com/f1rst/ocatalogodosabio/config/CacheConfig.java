@@ -18,7 +18,7 @@ public class CacheConfig {
                 .builder(redisConnectionFactory)
                 .cacheDefaults(RedisCacheConfiguration
                         .defaultCacheConfig(Thread.currentThread().getContextClassLoader())
-                        .entryTtl(Duration.ofSeconds(5)))
+                        .entryTtl(Duration.ofHours(1)))
                 .build();
     }
 }
