@@ -18,7 +18,6 @@ public class Instantiation implements CommandLineRunner {
     @Override
     public void run(String... args) {
         Faker faker = new Faker();
-
         bookRepository.deleteAll();
 
         for (int i = 0; i < 10000; i++) {
