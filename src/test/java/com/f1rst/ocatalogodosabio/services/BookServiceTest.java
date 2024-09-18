@@ -2,6 +2,7 @@ package com.f1rst.ocatalogodosabio.services;
 
 import com.f1rst.ocatalogodosabio.domain.entities.Book;
 import com.f1rst.ocatalogodosabio.repositories.BookRepository;
+import com.f1rst.ocatalogodosabio.services.exceptions.ObjectNotFoundException;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -56,5 +57,13 @@ class BookServiceTest {
         // THEN
         verify(bookRepository, times(1)).findById("randomId");
         assertEquals(book, result);
+    }
+
+    @Test
+    void findByIdErrorTest() {
+        // GIVEN
+        when(bookRepository.findById(anyString())).thenReturn(Optional.empty());
+        // THEN
+        assertThrows(ObjectNotFoundException.class, () -> bookService.findById("randomId"));
     }
 }
