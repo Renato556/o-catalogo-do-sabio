@@ -48,4 +48,22 @@ class BookResourceTest {
                 .usingRecursiveComparison()
                 .isEqualTo(bookArrayList.stream().map(BookDTO::new).toList());
     }
+
+    @Test
+    void findByIdSuccessTest() {
+        ArrayList<String> genres1 = new ArrayList<>(Arrays.asList("Ficção", "Aventura"));
+        Book book = new Book("123", "Teste", "Autor", genres1, "Editora");
+        book.setId("randomId");
+
+        // GIVEN
+        when(bookService.findById("randomId")).thenReturn(book);
+        // WHEN
+        ResponseEntity<BookDTO> response = bookResource.findById("randomId");
+        // THEN
+        verify(bookService, times(1)).findById("randomId");
+        assertEquals(response.getStatusCode(), HttpStatus.OK);
+        assertThat(response.getBody())
+                .usingRecursiveComparison()
+                .isEqualTo(book);
+    }
 }

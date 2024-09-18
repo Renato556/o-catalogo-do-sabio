@@ -27,6 +27,10 @@ public class Book implements Serializable {
         this.publisher = publisher;
     }
 
+    public void setId(String id) {
+        this.id = id;
+    }
+
     public String getId() {
         return id;
     }

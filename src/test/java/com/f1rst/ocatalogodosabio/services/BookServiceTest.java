@@ -11,6 +11,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.*;
@@ -40,5 +41,20 @@ class BookServiceTest {
         // THEN
         verify(bookRepository, times(1)).findAll();
         assertEquals(bookArrayList, result);
+    }
+
+    @Test
+    void findByIdSuccessTest() {
+        ArrayList<String> genres1 = new ArrayList<>(Arrays.asList("Ficção", "Aventura"));
+        Book book = new Book("123", "Teste", "Autor", genres1, "Editora");
+        book.setId("randomId");
+
+        // GIVEN
+        when(bookRepository.findById("randomId")).thenReturn(Optional.of(book));
+        // WHEN
+        Book result = bookService.findById("randomId");
+        // THEN
+        verify(bookRepository, times(1)).findById("randomId");
+        assertEquals(book, result);
     }
 }
