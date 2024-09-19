@@ -5,6 +5,8 @@ import com.f1rst.ocatalogodosabio.repositories.BookRepository;
 import com.f1rst.ocatalogodosabio.services.exceptions.ObjectNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +17,8 @@ public class BookService {
     private BookRepository bookRepository;
 
     @Cacheable("allBooks")
-    public List<Book> findAll() {
-        return bookRepository.findAll();
+    public Page<Book> findAll(Pageable pageable) {
+        return bookRepository.findAll(pageable);
     }
 
     public Book findById(String id) {

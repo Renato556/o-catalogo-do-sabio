@@ -8,6 +8,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -33,15 +37,19 @@ class BookServiceTest {
         ArrayList<String> genres2 = new ArrayList<>(Arrays.asList("Ficção", "Terror"));
         Book book2 = new Book("456", "Teste2", "Autor2", genres2, "Editora2");
 
-        ArrayList<Book> bookArrayList = new ArrayList<>(Arrays.asList(book1, book2));
+        Pageable pageable = PageRequest.of(1, 2);
+
+        Page<Book> bookPage = new PageImpl<>(List.of(book1, book2), pageable, 0);
 
         // GIVEN
-        when(bookRepository.findAll()).thenReturn(bookArrayList);
+        when(bookRepository.findAll(pageable)).thenReturn(bookPage);
         // WHEN
-        List<Book> result = bookService.findAll();
+        Page<Book> result = bookService.findAll(pageable);
         // THEN
-        verify(bookRepository, times(1)).findAll();
-        assertEquals(bookArrayList, result);
+        assertAll(
+                () -> verify(bookRepository, times(1)).findAll(pageable),
+                () -> assertEquals(bookPage, result)
+        );
     }
 
     @Test
@@ -55,8 +63,10 @@ class BookServiceTest {
         // WHEN
         Book result = bookService.findById("randomId");
         // THEN
-        verify(bookRepository, times(1)).findById("randomId");
-        assertEquals(book, result);
+        assertAll(
+                () -> verify(bookRepository, times(1)).findById("randomId"),
+                () -> assertEquals(book, result)
+        );
     }
 
     @Test
@@ -82,7 +92,10 @@ class BookServiceTest {
         // WHEN
         List<Book> result = bookService.findByAuthor("autor");
         // THEN
-        verify(bookRepository, times(1)).findAllByAuthorContainingIgnoreCase("autor");
-        assertEquals(bookArrayList, result);
+        assertAll(
+                () -> verify(bookRepository, times(1)).findAllByAuthorContainingIgnoreCase("autor"),
+                () -> assertEquals(bookArrayList, result)
+
+        );
     }
 }

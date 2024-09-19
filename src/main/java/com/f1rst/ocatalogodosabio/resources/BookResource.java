@@ -4,11 +4,10 @@ import com.f1rst.ocatalogodosabio.domain.entities.Book;
 import com.f1rst.ocatalogodosabio.dto.BookDTO;
 import com.f1rst.ocatalogodosabio.services.BookService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -19,9 +18,10 @@ public class BookResource {
     private BookService bookService;
 
     @GetMapping
-    public ResponseEntity<List<BookDTO>> findAll() {
-        List<Book> bookList = bookService.findAll();
-        List<BookDTO> bookDTOList = bookList.stream().map(BookDTO::new).toList();
+    public ResponseEntity<List<BookDTO>> findAll(@RequestParam(defaultValue = "0") int page,
+                                                 @RequestParam(defaultValue = "100") int size) {
+        Page<Book> bookPage = bookService.findAll(PageRequest.of(page, size));
+        List<BookDTO> bookDTOList = bookPage.getContent().stream().map(BookDTO::new).toList();
         return ResponseEntity.ok(bookDTOList);
     }
 

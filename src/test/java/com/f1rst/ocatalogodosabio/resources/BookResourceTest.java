@@ -8,6 +8,10 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
@@ -35,18 +39,22 @@ class BookResourceTest {
         ArrayList<String> genres2 = new ArrayList<>(Arrays.asList("Ficção", "Terror"));
         Book book2 = new Book("456", "Teste2", "Autor2", genres2, "Editora2");
 
-        ArrayList<Book> bookArrayList = new ArrayList<>(Arrays.asList(book1, book2));
+        Pageable pageable = PageRequest.of(1, 2);
+
+        Page<Book> bookPage = new PageImpl<>(List.of(book1, book2), pageable, 0);
 
         // GIVEN
-        when(bookService.findAll()).thenReturn(bookArrayList);
+        when(bookService.findAll(pageable)).thenReturn(bookPage);
         // WHEN
-        ResponseEntity<List<BookDTO>> response = bookResource.findAll();
+        ResponseEntity<List<BookDTO>> response = bookResource.findAll(1, 2);
         // THEN
-        verify(bookService, times(1)).findAll();
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertThat(response.getBody())
-                .usingRecursiveComparison()
-                .isEqualTo(bookArrayList.stream().map(BookDTO::new).toList());
+        assertAll(
+                () -> verify(bookService, times(1)).findAll(pageable),
+                () -> assertEquals(response.getStatusCode(), HttpStatus.OK),
+                () -> assertThat(response.getBody())
+                        .usingRecursiveComparison()
+                        .isEqualTo(bookPage.stream().map(BookDTO::new).toList())
+        );
     }
 
     @Test
@@ -60,11 +68,13 @@ class BookResourceTest {
         // WHEN
         ResponseEntity<BookDTO> response = bookResource.findById("randomId");
         // THEN
-        verify(bookService, times(1)).findById("randomId");
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertThat(response.getBody())
-                .usingRecursiveComparison()
-                .isEqualTo(book);
+        assertAll(
+                () -> verify(bookService, times(1)).findById("randomId"),
+                () -> assertEquals(response.getStatusCode(), HttpStatus.OK),
+                () -> assertThat(response.getBody())
+                        .usingRecursiveComparison()
+                        .isEqualTo(book)
+        );
     }
 
     @Test
@@ -82,10 +92,12 @@ class BookResourceTest {
         // WHEN
         ResponseEntity<List<BookDTO>> response = bookResource.findByAuthor("autor");
         // THEN
-        verify(bookService, times(1)).findByAuthor("autor");
-        assertEquals(response.getStatusCode(), HttpStatus.OK);
-        assertThat(response.getBody())
-                .usingRecursiveComparison()
-                .isEqualTo(bookArrayList.stream().map(BookDTO::new).toList());
+        assertAll(
+                () -> verify(bookService, times(1)).findByAuthor("autor"),
+                () -> assertEquals(response.getStatusCode(), HttpStatus.OK),
+                () -> assertThat(response.getBody())
+                        .usingRecursiveComparison()
+                        .isEqualTo(bookArrayList.stream().map(BookDTO::new).toList())
+        );
     }
 }
