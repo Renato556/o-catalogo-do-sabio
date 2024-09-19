@@ -3,6 +3,7 @@ package com.f1rst.ocatalogodosabio.resources;
 import com.f1rst.ocatalogodosabio.domain.entities.Book;
 import com.f1rst.ocatalogodosabio.dto.BookDTO;
 import com.f1rst.ocatalogodosabio.services.BookService;
+import com.f1rst.ocatalogodosabio.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
@@ -12,10 +13,12 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/books")
+@RequestMapping("/books")
 public class BookResource {
     @Autowired
     private BookService bookService;
+    @Autowired
+    private UserService userService;
 
     @GetMapping
     public ResponseEntity<List<BookDTO>> findAll(@RequestParam(defaultValue = "0") int page,
@@ -26,8 +29,11 @@ public class BookResource {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<BookDTO> findById(@PathVariable("id") String id) {
+    public ResponseEntity<BookDTO> findById(
+            @PathVariable("id") String id,
+            @RequestHeader(value = "user", defaultValue = "") String userId) {
         Book book = bookService.findById(id);
+        userService.addBookToLastSeen(userId, book);
         return ResponseEntity.ok(new BookDTO(book));
     }
 

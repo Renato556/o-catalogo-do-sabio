@@ -9,7 +9,6 @@ import java.util.List;
 @Document
 public class Book implements Serializable {
     @Id
-    private String id;
     private String isbn;
     private String title;
     private String author;
@@ -25,14 +24,6 @@ public class Book implements Serializable {
         this.author = author;
         this.genre = genre;
         this.publisher = publisher;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getIsbn() {

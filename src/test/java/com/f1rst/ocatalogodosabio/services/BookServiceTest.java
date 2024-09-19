@@ -56,7 +56,7 @@ class BookServiceTest {
     void findByIdSuccessTest() {
         ArrayList<String> genres1 = new ArrayList<>(Arrays.asList("Ficção", "Aventura"));
         Book book = new Book("123", "Teste", "Autor", genres1, "Editora");
-        book.setId("randomId");
+        book.setIsbn("randomId");
 
         // GIVEN
         when(bookRepository.findById("randomId")).thenReturn(Optional.of(book));

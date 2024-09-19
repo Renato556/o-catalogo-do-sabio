@@ -2,10 +2,10 @@ package com.f1rst.ocatalogodosabio.dto;
 
 import com.f1rst.ocatalogodosabio.domain.entities.Book;
 
+import java.io.Serializable;
 import java.util.List;
 
-public class BookDTO {
-    private final String id;
+public class BookDTO implements Serializable {
     private String isbn;
     private String title;
     private String author;
@@ -13,16 +13,11 @@ public class BookDTO {
     private String publisher;
 
     public BookDTO(Book book) {
-        this.id = book.getId();
         this.isbn = book.getIsbn();
         this.title = book.getTitle();
         this.author = book.getAuthor();
         this.genre = book.getGenre();
         this.publisher = book.getPublisher();
-    }
-
-    public String getId() {
-        return id;
     }
 
     public String getIsbn() {
@@ -63,5 +58,16 @@ public class BookDTO {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    @Override
+    public String toString() {
+        return "BookDTO{" +
+                "isbn='" + isbn + '\'' +
+                ", title='" + title + '\'' +
+                ", author='" + author + '\'' +
+                ", genre=" + genre +
+                ", publisher='" + publisher + '\'' +
+                '}';
     }
 }

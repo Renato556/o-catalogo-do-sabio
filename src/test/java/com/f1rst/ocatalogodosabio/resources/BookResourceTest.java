@@ -3,6 +3,7 @@ package com.f1rst.ocatalogodosabio.resources;
 import com.f1rst.ocatalogodosabio.domain.entities.Book;
 import com.f1rst.ocatalogodosabio.dto.BookDTO;
 import com.f1rst.ocatalogodosabio.services.BookService;
+import com.f1rst.ocatalogodosabio.services.UserService;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
@@ -27,6 +28,8 @@ import static org.mockito.Mockito.*;
 class BookResourceTest {
     @Mock
     private BookService bookService;
+    @Mock
+    private UserService userService;
 
     @InjectMocks
     private BookResource bookResource;
@@ -61,15 +64,16 @@ class BookResourceTest {
     void findByIdSuccessTest() {
         ArrayList<String> genres1 = new ArrayList<>(Arrays.asList("Ficção", "Aventura"));
         Book book = new Book("123", "Teste", "Autor", genres1, "Editora");
-        book.setId("randomId");
+        book.setIsbn("randomId");
 
         // GIVEN
         when(bookService.findById("randomId")).thenReturn(book);
         // WHEN
-        ResponseEntity<BookDTO> response = bookResource.findById("randomId");
+        ResponseEntity<BookDTO> response = bookResource.findById("randomId", "");
         // THEN
         assertAll(
                 () -> verify(bookService, times(1)).findById("randomId"),
+                () -> verify(userService, times(1)).addBookToLastSeen("", book),
                 () -> assertEquals(response.getStatusCode(), HttpStatus.OK),
                 () -> assertThat(response.getBody())
                         .usingRecursiveComparison()
