@@ -5,6 +5,8 @@ import com.f1rst.ocatalogodosabio.domain.entities.User;
 import com.f1rst.ocatalogodosabio.repositories.BookRepository;
 import com.f1rst.ocatalogodosabio.repositories.UserRepository;
 import com.github.javafaker.Faker;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.cache.annotation.CacheEvict;
@@ -19,6 +21,8 @@ public class Instantiation implements CommandLineRunner {
     private BookRepository bookRepository;
     @Autowired
     private UserRepository userRepository;
+
+    Logger logger = LoggerFactory.getLogger(Instantiation.class);
 
     @Override
     @CacheEvict(value = { "allBooks", "booksByAuthor", "booksByGenre"}, allEntries = true)
@@ -50,6 +54,6 @@ public class Instantiation implements CommandLineRunner {
 
             bookRepository.save(book);
         }
-        System.out.printf("Successfully generated %s books%n", numberOfBooks);
+        logger.info("[Instantiation:run] Successfully generated {} books", numberOfBooks);
     }
 }
