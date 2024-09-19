@@ -23,4 +23,19 @@ public class ResourceExceptionHandler {
 
         return ResponseEntity.status(status).body(error);
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<StandartError> unexpectedException(Exception exception, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+
+        StandartError error = new StandartError(
+                System.currentTimeMillis(),
+                status.value(),
+                "Ocorreu um erro inesperado na aplicação",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+
+        return ResponseEntity.status(status).body(error);
+    }
 }
