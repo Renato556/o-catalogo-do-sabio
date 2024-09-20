@@ -22,7 +22,7 @@ Também permite que o usuário visualize um livro e essa informação fica salva
 
 A aplicação segue o padrão de arquitetura em camadas, separando responsabilidades entre controladores (resources), serviços (services) e repositórios (repositories).  
 Para a transferência de dados da API são utilizados DTOs (Data Transfer Objects), garantindo encapsulamento e redução do acoplamento.  
-Com a ideia de melhorar a performance da aplicação foi implementado caching utilizando o Redis nas consultas mais frequentes e que os resultados sejam estáticos.  
+Com a ideia de melhorar a performance da aplicação foi implementado caching utilizando o Redis nas consultas mais frequentes.  
 Foi utilizado o Swagger para facilitar a documentação e testes da API.
 
 ## II. Explicação sobre o Case Desenvolvido (Plano de Implementação)
