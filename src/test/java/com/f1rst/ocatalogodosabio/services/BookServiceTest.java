@@ -98,4 +98,26 @@ class BookServiceTest {
 
         );
     }
+
+    @Test
+    void findByGenreSuccessTest() {
+        ArrayList<String> genres1 = new ArrayList<>(Arrays.asList("Ficção", "Aventura"));
+        Book book1 = new Book("123", "Teste", "Autor", genres1, "Editora");
+
+        ArrayList<String> genres2 = new ArrayList<>(Arrays.asList("Ficção", "Terror"));
+        Book book2 = new Book("456", "Teste2", "Autor2", genres2, "Editora2");
+
+        ArrayList<Book> bookArrayList = new ArrayList<>(Arrays.asList(book1, book2));
+
+        // GIVEN
+        when(bookRepository.findByGenreIgnoreCase("ficção")).thenReturn(bookArrayList);
+        // WHEN
+        List<Book> result = bookService.findByGenre("ficção");
+        // THEN
+        assertAll(
+                () -> verify(bookRepository, times(1)).findByGenreIgnoreCase("ficção"),
+                () -> assertEquals(bookArrayList, result)
+
+        );
+    }
 }
