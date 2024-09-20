@@ -8,6 +8,8 @@ Case técnico desenvolvido para a empresa F1RST Digital Services
 ![Generic badge](https://img.shields.io/badge/mongodb-green)
 ![Generic badge](https://img.shields.io/badge/redis-red)
 
+[Relatório final](https://github.com/Renato556/o-catalogo-do-sabio/blob/dev/Relat%C3%B3rio.md)
+
 ## Requisitos
 
 - Git
