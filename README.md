@@ -44,4 +44,4 @@ Inicie o servidor
 
 A aplicação ficará disponível na porta 8080
 
-## [Documentação da API](http://localhost:8080/swagger-ui/index.html)
+[Documentação da API](http://localhost:8080/swagger-ui/index.html)
