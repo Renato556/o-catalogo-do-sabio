@@ -18,7 +18,7 @@ public class UserService {
 
     public User findById(String id) {
         logger.info("[UserService:findById] Searching user by id: {}", id);
-        User user = userRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("Usuário não encontrado"));
+        User user = userRepository.findById(id).orElseThrow(() -> new ObjectNotFoundException("No user found with given id"));
         logger.info("[UserService:findById] User of id: {} found", id);
         return user;
     }
