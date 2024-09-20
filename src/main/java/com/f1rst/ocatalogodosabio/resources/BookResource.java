@@ -29,9 +29,8 @@ public class BookResource {
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<BookDTO> findById(
-            @PathVariable("id") String id,
-            @RequestHeader(value = "user", defaultValue = "") String userId) {
+    public ResponseEntity<BookDTO> findById(@PathVariable("id") String id,
+                                            @RequestHeader(value = "user", defaultValue = "") String userId) {
         Book book = bookService.findById(id);
         userService.addBookToLastSeen(userId, book);
         return ResponseEntity.ok(new BookDTO(book));
