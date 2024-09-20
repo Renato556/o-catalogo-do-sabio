@@ -59,9 +59,13 @@ class UserServiceTest {
         // WHEN
         userService.addBookToLastSeen("123", book);
         // THEN
-        assertThat(user)
-                .usingRecursiveComparison()
-                .isEqualTo(expected);
+        assertAll(
+                () -> verify(userRepository, times(1)).findById(anyString()),
+                () -> verify(userRepository, times(1)).save(any(User.class)),
+                () -> assertThat(user)
+                        .usingRecursiveComparison()
+                        .isEqualTo(expected)
+        );
     }
 
     @Test
@@ -74,6 +78,28 @@ class UserServiceTest {
         assertAll(
                 () -> verify(userRepository, times(0)).findById(anyString()),
                 () -> verify(userRepository, times(0)).save(any(User.class))
+        );
+    }
+
+    @Test
+    void addBookToLastSeenBookAlreadySeenTest() {
+        Book book = new Book("123456", "Clean Code", "Uncle Bob", List.of("Coding"), "any");
+        User user = new User("123", "Renato");
+        user.addToLastSeen(book);
+        User expected = new User("123", "Renato");
+        expected.addToLastSeen(book);
+
+        // GIVEN
+        when(userRepository.findById("123")).thenReturn(Optional.of(user));
+        // WHEN
+        userService.addBookToLastSeen("123", book);
+        // THEN
+        assertAll(
+                () -> verify(userRepository, times(1)).findById("123"),
+                () -> verify(userRepository, times(0)).save(any(User.class)),
+                () -> assertThat(user)
+                        .usingRecursiveComparison()
+                        .isEqualTo(expected)
         );
     }
 }

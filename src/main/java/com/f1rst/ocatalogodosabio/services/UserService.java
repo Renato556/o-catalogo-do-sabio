@@ -27,8 +27,14 @@ public class UserService {
         if (id.isBlank()) return;
 
         User user = findById(id);
+        if (bookAlreadySeen(user, book)) return;
+
         user.addToLastSeen(book);
         userRepository.save(user);
         logger.info("[UserService:addBookToLastSeen] Book of isbn: {} added to user: {} last seen", book.getIsbn(), id);
+    }
+
+    private boolean bookAlreadySeen(User user, Book book) {
+        return user.getLastSeen().contains(book);
     }
 }

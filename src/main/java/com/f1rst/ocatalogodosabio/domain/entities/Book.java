@@ -5,6 +5,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 @Document
 public class Book implements Serializable {
@@ -64,6 +65,19 @@ public class Book implements Serializable {
 
     public void setPublisher(String publisher) {
         this.publisher = publisher;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Book book = (Book) o;
+        return Objects.equals(getIsbn(), book.getIsbn()) && Objects.equals(getTitle(), book.getTitle()) && Objects.equals(getAuthor(), book.getAuthor()) && Objects.equals(getGenre(), book.getGenre()) && Objects.equals(getPublisher(), book.getPublisher());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getIsbn(), getTitle(), getAuthor(), getGenre(), getPublisher());
     }
 
     @Override
