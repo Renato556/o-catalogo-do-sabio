@@ -15,13 +15,13 @@ public class ResourceExceptionHandler {
     private final String LOGGER_ID = "[ResourceExceptionHandler:";
 
     @ExceptionHandler(ObjectNotFoundException.class)
-    public ResponseEntity<StandartError> objectNotFound(ObjectNotFoundException exception, HttpServletRequest request) {
+    public ResponseEntity<StandardError> objectNotFound(ObjectNotFoundException exception, HttpServletRequest request) {
         HttpStatus status = HttpStatus.NOT_FOUND;
 
-        StandartError error = new StandartError(
+        StandardError error = new StandardError(
                 System.currentTimeMillis(),
                 status.value(),
-                "Objeto não encontrado",
+                "Object not found",
                 exception.getMessage(),
                 request.getRequestURI()
         );
@@ -32,13 +32,13 @@ public class ResourceExceptionHandler {
     }
 
     @ExceptionHandler(Exception.class)
-    public ResponseEntity<StandartError> unexpectedException(Exception exception, HttpServletRequest request) {
+    public ResponseEntity<StandardError> unexpectedException(Exception exception, HttpServletRequest request) {
         HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
 
-        StandartError error = new StandartError(
+        StandardError error = new StandardError(
                 System.currentTimeMillis(),
                 status.value(),
-                "Ocorreu um erro inesperado na aplicação",
+                "Unexpected error",
                 exception.getMessage(),
                 request.getRequestURI()
         );

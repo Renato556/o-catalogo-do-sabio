@@ -2,17 +2,17 @@ package com.f1rst.ocatalogodosabio.resources.exceptions;
 
 import java.io.Serializable;
 
-public class StandartError implements Serializable {
+public class StandardError implements Serializable {
     private Long timestamp;
     private Integer status;
     private String error;
     private String message;
     private String path;
 
-    public StandartError() {
+    public StandardError() {
     }
 
-    public StandartError(Long timestamp, Integer status, String error, String message, String path) {
+    public StandardError(Long timestamp, Integer status, String error, String message, String path) {
         this.timestamp = timestamp;
         this.status = status;
         this.error = error;

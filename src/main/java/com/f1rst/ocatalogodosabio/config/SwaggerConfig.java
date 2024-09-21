@@ -11,6 +11,6 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         return new OpenAPI().info(new Info()
                 .title("O Catálogo do Sábio")
-                .description("Case técnico desenvolvido para processo seletivo da F1RST Digital Services"));
+                .description("Case técnico desenvolvido para um processo seletivo"));
     }
 }
