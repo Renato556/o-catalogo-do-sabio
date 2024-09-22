@@ -8,6 +8,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.resource.NoResourceFoundException;
 
 @ControllerAdvice
 public class ResourceExceptionHandler {
@@ -31,13 +33,45 @@ public class ResourceExceptionHandler {
         return ResponseEntity.status(status).body(error);
     }
 
-    @ExceptionHandler(Exception.class)
-    public ResponseEntity<StandardError> unexpectedException(Exception exception, HttpServletRequest request) {
-        HttpStatus status = HttpStatus.INTERNAL_SERVER_ERROR;
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<StandardError> methodArgumentTypeMismatch(MethodArgumentTypeMismatchException exception, HttpServletRequest request) {
+
+        StandardError error = new StandardError(
+                System.currentTimeMillis(),
+                HttpStatus.BAD_REQUEST.value(),
+                "Method argument type mismatch",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+
+        logger.error("{}methodArgumentTypeMismatch] {}", LOGGER_ID, exception.getMessage());
+
+        return ResponseEntity.badRequest().body(error);
+    }
+
+    @ExceptionHandler(NoResourceFoundException.class)
+    public ResponseEntity<StandardError> noResourceFound(NoResourceFoundException exception, HttpServletRequest request) {
+        HttpStatus status = HttpStatus.NOT_FOUND;
 
         StandardError error = new StandardError(
                 System.currentTimeMillis(),
                 status.value(),
+                "Resource not found",
+                exception.getMessage(),
+                request.getRequestURI()
+        );
+
+        logger.error("{}noResourceFound] {}", LOGGER_ID, exception.getMessage());
+
+        return ResponseEntity.status(status).body(error);
+    }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<StandardError> unexpectedException(Exception exception, HttpServletRequest request) {
+
+        StandardError error = new StandardError(
+                System.currentTimeMillis(),
+                HttpStatus.INTERNAL_SERVER_ERROR.value(),
                 "Unexpected error",
                 exception.getMessage(),
                 request.getRequestURI()
@@ -45,6 +79,6 @@ public class ResourceExceptionHandler {
 
         logger.error("{}unexpectedException] {}", LOGGER_ID, exception.getMessage());
 
-        return ResponseEntity.status(status).body(error);
+        return ResponseEntity.internalServerError().body(error);
     }
 }
