@@ -47,13 +47,13 @@ Resposta de sucesso: 200
 
 Contrato:
 
-```code
+```json
 [
   {
     "isbn": "string",
     "title": "string",
     "author": "string",
-    "genre": [
+    "genres": [
       "string"
     ],
     "publisher": "string"
@@ -74,12 +74,12 @@ Caso seja fornecido o ID de um usuário no header e o usuário existir, o livro 
 
 Resposta de sucesso: 200
 
-```code
+```json
 {
   "isbn": "string",
   "title": "string",
   "author": "string",
-  "genre": [
+  "genres": [
     "string"
   ],
   "publisher": "string"
@@ -88,11 +88,11 @@ Resposta de sucesso: 200
 
 Resposta em caso de livro não encontrado: 404
 
-```code
+```json
 {
   "timestamp": 1726869619976,
   "status": 404,
-  "error": "Objeto não encontrado",
+  "error": "Object not found",
   "message": "No book found with given id",
   "path": "/books/{user}"
 }
@@ -100,11 +100,11 @@ Resposta em caso de livro não encontrado: 404
 
 Resposta em caso de livro encontrado, mas usuário não encontrado: 404
 
-```code
+```json
 {
   "timestamp": 1726869619976,
   "status": 404,
-  "error": "Objeto não encontrado",
+  "error": "Object not found",
   "message": "No user found with given id",
   "path": "/books/{id}"
 }
@@ -123,13 +123,13 @@ Resposta em caso de livro encontrado, mas usuário não encontrado: 404
 
 Resposta de sucesso: 200
 
-```code
+```json
 [
   {
     "isbn": "string",
     "title": "string",
     "author": "string",
-    "genre": [
+    "genres": [
       "string"
     ],
     "publisher": "string"
@@ -139,7 +139,7 @@ Resposta de sucesso: 200
 
 Resposta de nenhum encontrado: 200
 
-```code
+```json
 []
 ```
 
@@ -157,13 +157,13 @@ Não diferencia maiúsculas de minúsculas.
 
 Resposta de sucesso: 200
 
-```code
+```json
 [
   {
     "isbn": "string",
     "title": "string",
     "author": "string",
-    "genre": [
+    "genres": [
       "string"
     ],
     "publisher": "string"
@@ -173,7 +173,7 @@ Resposta de sucesso: 200
 
 Resposta de nenhum encontrado: 200
 
-```code
+```json
 []
 ```
 
@@ -188,7 +188,7 @@ Resposta de nenhum encontrado: 200
 
 Resposta de sucesso: 200
 
-```code
+```json
 {
   "id": "string",
   "name": "string",
@@ -197,7 +197,7 @@ Resposta de sucesso: 200
       "isbn": "string",
       "title": "string",
       "author": "string",
-      "genre": [
+      "genres": [
         "string"
       ],
       "publisher": "string"
@@ -208,13 +208,51 @@ Resposta de sucesso: 200
 
 Resposta em caso de usuário não encontrado: 404
 
-```code
+```json
 {
   "timestamp": 1726869619976,
   "status": 404,
-  "error": "Objeto não encontrado",
+  "error": "Object not found",
   "message": "No user found with given id",
   "path": "/users/{id}"
+}
+```
+
+#### Casos de erro
+
+Resposta de erro genérica: 500
+
+```json
+{
+  "timestamp": 1726869619976,
+  "status": 500,
+  "error": "Unexpected error",
+  "message": "An internal error occurred",
+  "path": "/books"
+}
+```
+
+Resposta de erro de validação: 400
+
+```json
+{
+  "timestamp": 1726869619976,
+  "status": 400,
+  "error": "Method argument type mismatch",
+  "message": "Failed to convert value of type 'java.lang.String' to required type 'int'; For input string: 10000a",
+  "path": "/books"
+}
+```
+
+Resposta de rota não encontrada: 404
+
+```json
+{
+  "timestamp": 1726869619976,
+  "status": 404,
+  "error": "Resource not found",
+  "message": "No static resource user.",
+  "path": "/user"
 }
 ```
 
