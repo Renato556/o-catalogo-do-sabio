@@ -13,17 +13,17 @@ public class Book implements Serializable {
     private String isbn;
     private String title;
     private String author;
-    private List<String> genre;
+    private List<String> genres;
     private String publisher;
 
     public Book() {
     }
 
-    public Book(String isbn, String title, String author, List<String> genre, String publisher) {
+    public Book(String isbn, String title, String author, List<String> genres, String publisher) {
         this.isbn = isbn;
         this.title = title;
         this.author = author;
-        this.genre = genre;
+        this.genres = genres;
         this.publisher = publisher;
     }
 
@@ -51,12 +51,12 @@ public class Book implements Serializable {
         this.author = author;
     }
 
-    public List<String> getGenre() {
-        return genre;
+    public List<String> getGenres() {
+        return genres;
     }
 
-    public void setGenre(List<String> genre) {
-        this.genre = genre;
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
     }
 
     public String getPublisher() {
@@ -72,12 +72,12 @@ public class Book implements Serializable {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         Book book = (Book) o;
-        return Objects.equals(getIsbn(), book.getIsbn()) && Objects.equals(getTitle(), book.getTitle()) && Objects.equals(getAuthor(), book.getAuthor()) && Objects.equals(getGenre(), book.getGenre()) && Objects.equals(getPublisher(), book.getPublisher());
+        return Objects.equals(getIsbn(), book.getIsbn()) && Objects.equals(getTitle(), book.getTitle()) && Objects.equals(getAuthor(), book.getAuthor()) && Objects.equals(getGenres(), book.getGenres()) && Objects.equals(getPublisher(), book.getPublisher());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getIsbn(), getTitle(), getAuthor(), getGenre(), getPublisher());
+        return Objects.hash(getIsbn(), getTitle(), getAuthor(), getGenres(), getPublisher());
     }
 
     @Override
@@ -86,7 +86,7 @@ public class Book implements Serializable {
                 "isbn='" + isbn + '\'' +
                 ", title='" + title + '\'' +
                 ", author=" + author +
-                ", genre=" + genre +
+                ", genres=" + genres +
                 ", publisher=" + publisher +
                 '}';
     }

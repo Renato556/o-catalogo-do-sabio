@@ -9,14 +9,14 @@ public class BookDTO implements Serializable {
     private String isbn;
     private String title;
     private String author;
-    private List<String> genre;
+    private List<String> genres;
     private String publisher;
 
     public BookDTO(Book book) {
         this.isbn = book.getIsbn();
         this.title = book.getTitle();
         this.author = book.getAuthor();
-        this.genre = book.getGenre();
+        this.genres = book.getGenres();
         this.publisher = book.getPublisher();
     }
 
@@ -44,12 +44,12 @@ public class BookDTO implements Serializable {
         this.author = author;
     }
 
-    public List<String> getGenre() {
-        return genre;
+    public List<String> getGenres() {
+        return genres;
     }
 
-    public void setGenre(List<String> genre) {
-        this.genre = genre;
+    public void setGenres(List<String> genres) {
+        this.genres = genres;
     }
 
     public String getPublisher() {
@@ -66,7 +66,7 @@ public class BookDTO implements Serializable {
                 "isbn='" + isbn + '\'' +
                 ", title='" + title + '\'' +
                 ", author='" + author + '\'' +
-                ", genre=" + genre +
+                ", genres=" + genres +
                 ", publisher='" + publisher + '\'' +
                 '}';
     }

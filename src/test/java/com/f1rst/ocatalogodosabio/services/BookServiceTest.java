@@ -110,12 +110,12 @@ class BookServiceTest {
         ArrayList<Book> bookArrayList = new ArrayList<>(Arrays.asList(book1, book2));
 
         // GIVEN
-        when(bookRepository.findByGenreIgnoreCase("ficção")).thenReturn(bookArrayList);
+        when(bookRepository.findByGenresIgnoreCase("ficção")).thenReturn(bookArrayList);
         // WHEN
         List<Book> result = bookService.findByGenre("ficção");
         // THEN
         assertAll(
-                () -> verify(bookRepository, times(1)).findByGenreIgnoreCase("ficção"),
+                () -> verify(bookRepository, times(1)).findByGenresIgnoreCase("ficção"),
                 () -> assertEquals(bookArrayList, result)
 
         );

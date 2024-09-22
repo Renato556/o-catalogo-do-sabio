@@ -47,7 +47,7 @@ public class BookService {
     @Cacheable("booksByGenre")
     public List<Book> findByGenre(String genre) {
         logger.info("{}findByGenre] Searching books that contains genre: {}", LOGGER_ID, genre);
-        List<Book> books = bookRepository.findByGenreIgnoreCase(genre);
+        List<Book> books = bookRepository.findByGenresIgnoreCase(genre);
         logger.info("{}findByGenre] Search of book that contains genre: {} was successful", LOGGER_ID, genre);
         return books;
     }
